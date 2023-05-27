@@ -3,18 +3,9 @@ import { Activity } from "../models/activity";
 
 axios.defaults.baseURL = 'http://localhost:5000/api'
 
-const responseBody = <T>(response: AxiosResponse<T>) => response.data
-
 const sleep = (delay: number) => new Promise(resolve => {
     setTimeout(resolve, delay);
 })
-
-const requests = {
-    get: <T>(url: string) => axios.get<T>(url).then(responseBody),
-    post: <T>(url: string, body: {}) => axios.post<T>(url, body).then(responseBody),
-    put: <T>(url: string, body: {}) => axios.put<T>(url, body).then(responseBody),
-    delete: <T>(url: string) => axios.delete<T>(url).then(responseBody),
-}
 
 // axios.interceptors.response.use(response =>
 //     sleep(1000).then(() => response)
@@ -35,6 +26,17 @@ axios.interceptors.response.use(async response => {
     }
 }
 )
+
+
+const responseBody = <T>(response: AxiosResponse<T>) => response.data
+
+
+const requests = {
+    get: <T>(url: string) => axios.get<T>(url).then(responseBody),
+    post: <T>(url: string, body: {}) => axios.post<T>(url, body).then(responseBody),
+    put: <T>(url: string, body: {}) => axios.put<T>(url, body).then(responseBody),
+    delete: <T>(url: string) => axios.delete<T>(url).then(responseBody),
+}
 
 const Activities = {
     list: () => requests.get<Activity[]>('/activities'),
